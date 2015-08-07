@@ -1,0 +1,78 @@
+Projeto GreemWiki - Docs
+
+  1 - Criação do Projeto
+
+        Para o desenvolvimento deste projeto estamos utilizando Node.js, Express.js,
+    Angular.js e MongoDB. O primeiro passo é a criação da estrutura do projeto com o
+    seguinte comando:
+
+        express GreemWiki
+
+        Com o projeto criado precisamos instalar as dependencias listadas no package.json.
+    Como não vamos utilizar as views do Express, podemos apagar a dependencia do jade, que
+    é a view engine do express, e rodar o comando:
+
+        npm install
+
+        Após fazer isso, vamos modifica-lo para não utilizar as views do
+    Express, pois nosso front será em Angular. Para isso é necessário fazer os
+    seguintes passos:
+
+        1- Abrir o arquivo app.js
+        2- Comentar as seguintes linhas:
+
+            app.set('views', path.join(__dirname, 'views'));
+            app.set('view engine', 'ejs');
+
+        3- Trocar esse trecho de código:
+
+            if (app.get('env') === 'development') {
+              app.use(function(err, req, res, next) {
+                res.status(err.status || 500);
+                //res.render é utilizado para renderizar a view
+                res.render({
+                    message: err.message,
+                    error: err
+                });
+              });
+            }
+
+            por esse:
+
+            if (app.get('env') === 'development') {
+              app.use(function(err, req, res, next) {
+                res.status(err.status || 500);
+                //res.send é utilizado para retornar um objeto json, uma msg...
+                res.send({
+                    message: err.message,
+                    error: err
+                });
+              });
+            }
+
+        4- Trocar esse trecho de código:
+
+            app.use(function(err, req, res, next) {
+              res.status(err.status || 500);
+              res.render({
+                  message: err.message,
+                  error: err
+              });
+            });
+
+            por esse:
+
+            app.use(function(err, req, res, next) {
+              res.status(err.status || 500);
+              res.send({
+                  message: err.message,
+                  error: err
+              });
+            });
+
+        5- Apagar a pasta views
+        6- Rodar o projeto com o comando:
+
+            npm start
+
+            Acessar no browser http://localhost:3000
