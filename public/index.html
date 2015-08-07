@@ -48,13 +48,12 @@
 		</section>
 
 		<anside>
-			<div class="col-md-9">
-				<h4 class="text-center">Conteudo</h4>
+			<div class="col-md-9">				
 				<div class="content" ng-repeat="post in posts">
 					<article>
 						<h1><a name="{{post._id}}">{{post.titulo}}</a></h1>						
 						<i>Data Inclusão: {{post.data | date}} - Autor: {{post.user}} </i>
-						<br>
+						<br><br>
 						{{post.conteudo}}
 					</article>
 				</div>
