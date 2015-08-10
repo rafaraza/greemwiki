@@ -2,7 +2,7 @@ var greemWiki = angular.module('GreemWiki', []);
 
 greemWiki.controller('AppController', ['$scope','$http','$window', function($scope, $http, $window){
 
-	$scope.post = "";
+	//$scope.post = "";
 
 	var refresh = function(){
 			$http.get('/post').success(function(response){
@@ -47,7 +47,8 @@ greemWiki.controller('AppController', ['$scope','$http','$window', function($sco
 
 	$scope.logar = function(user){
 		$http.post("/user/login", user).success(function(response){
-			//adicionando usuario na sessao			
+			//adicionando usuario na sessao	
+			console.log(response);		
 			if(response != null){				
 				$window.sessionStorage.setItem('usuario', response.nome);
 			}
