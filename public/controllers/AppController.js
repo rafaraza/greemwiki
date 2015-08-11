@@ -2,7 +2,9 @@ var greemWiki = angular.module('GreemWiki', []);
 
 greemWiki.controller('AppController', ['$scope','$http','$window', function($scope, $http, $window){
 
-	//$scope.post = "";
+	$scope.post = "";
+
+	$scope.page = 'login.html';
 
 	var refresh = function(){
 			$http.get('/post').success(function(response){
@@ -45,13 +47,12 @@ greemWiki.controller('AppController', ['$scope','$http','$window', function($sco
 		});
 	};
 
-	$scope.logar = function(user){
-		$http.post("/user/login", user).success(function(response){
-			//adicionando usuario na sessao	
-			console.log(response);		
-			if(response != null){				
-				$window.sessionStorage.setItem('usuario', response.nome);
-			}
+	$scope.logar = function(username, password){
+
+		var user = { username:  username, password: password };
+		$http.post("/login", user).success(function(response){
+			//adicionando usuario na sessao					
+			console.log("ASASAS");			
 		});
 	};
 
