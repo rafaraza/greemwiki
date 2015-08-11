@@ -70,6 +70,8 @@ greemWiki.controller('AppController', ['$scope','$http','$window', function($sco
 		});
 	};
 
+
+
 	$scope.logout = function(){
 
 		$http.get("/signout").success(function(response){
