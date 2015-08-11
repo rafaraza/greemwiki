@@ -2,9 +2,16 @@ var greemWiki = angular.module('GreemWiki', []);
 
 greemWiki.controller('AppController', ['$scope','$http','$window', function($scope, $http, $window){
 
-	$scope.post = "";
+	$scope.post = "";			
 
-	$scope.page = 'login.html';
+	if($window.sessionStorage.getItem('userLog') == null || $window.sessionStorage.getItem('userLog') == 'undefined'){
+		$scope.userLog = "";
+		$scope.page = 'login.html';		
+	}
+	else{
+		$scope.userLog = angular.fromJson($window.sessionStorage.getItem('userLog'));
+		$scope.page = 'principal.html';		
+	}
 
 	var refresh = function(){
 			$http.get('/post').success(function(response){
@@ -51,23 +58,25 @@ greemWiki.controller('AppController', ['$scope','$http','$window', function($sco
 
 		var user = { username:  username, password: password };
 		$http.post("/login", user).success(function(response){
-			//adicionando usuario na sessao					
-			console.log("ASASAS");			
+
+			$scope.msgErro = "";
+			if(response.success == true){
+				$scope.userLog = response.user;			
+				$window.sessionStorage.setItem('userLog', JSON.stringify(response.user));
+				$scope.page = 'principal.html';				
+			} else {
+				$scope.msgErro = response.message;
+			}
 		});
 	};
 
-	$scope.logado = function(){		
-		var valor = $window.sessionStorage.getItem('usuario');		
-		if(valor){
-			$scope.usuario = valor + "(Sair)";
-			return valor;
-		}
-		return false;
-	};
-
 	$scope.logout = function(){
-		$window.sessionStorage.removeItem('usuario');
-		$scope.usuario = "";
+
+		$http.get("/signout").success(function(response){
+			$window.sessionStorage.removeItem('userLog');
+			$scope.userLog = "";			
+			$scope.page = 'login.html';
+		});
 	};
 
 }]);

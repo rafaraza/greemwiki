@@ -29,7 +29,7 @@ module.exports = function(passport){
 	    	if (!user) {
 	       		return res.send({ success : false, message : 'authentication failed' });
 	     	}
-	     	return res.send({ success : true, message : 'authentication succeeded' });
+	     	return res.send({ success : true, message : 'authentication succeeded', user : user });
 	  })(req, res, next);
 	});
 
@@ -41,6 +41,11 @@ module.exports = function(passport){
 
 	router.get('/error', isAuthenticated, function(req, res){			
 		res.render('error', { user: req.user });
+	});
+
+	router.get('/signout', function(req, res) {
+		req.logout();
+		res.redirect('/');
 	});
 
 	return router;
